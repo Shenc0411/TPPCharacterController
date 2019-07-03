@@ -1,18 +1,13 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class InputManager : MonoBehaviour
+﻿namespace Lake
 {
-    // Start is called before the first frame update
-    void Start()
+    using System.Collections;
+    using System.Collections.Generic;
+    using UnityEngine;
+    using Lake.Utilities;
+
+    public class InputManager : SingletonBehaviour<InputManager>
     {
         
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }
