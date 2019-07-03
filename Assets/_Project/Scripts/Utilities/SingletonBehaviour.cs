@@ -19,7 +19,7 @@
                 {
                     if(instance != null)
                     {
-                        Debug.Log("Switching instance from " + instance.name + " to " + value == null ? "null" : value.name);
+                        Debug.Log("Switching instance of " + typeof(T).ToString() + " from " + instance.name + " to " + (value == null ? "null" : value.name));
                         Destroy(instance);
                     }
 
