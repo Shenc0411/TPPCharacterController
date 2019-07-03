@@ -24,6 +24,14 @@
             }
         }
 
+        public void UnRegisterKeyHoldCallBack(KeyCode key, Action callback)
+        {
+            if (keyHoldCallBackMap.ContainsKey(key))
+            {
+                keyHoldCallBackMap[key] -= callback;
+            }
+        }
+
         public void RegisterKeyDownCallBack(KeyCode key, Action callback)
         {
             if (keyDownCallBackMap.ContainsKey(key))
@@ -36,6 +44,14 @@
             }
         }
 
+        public void UnRegisterKeyDownCallBack(KeyCode key, Action callback)
+        {
+            if (keyDownCallBackMap.ContainsKey(key))
+            {
+                keyDownCallBackMap[key] -= callback;
+            }
+        }
+
         public void RegisterKeyUpCallBack(KeyCode key, Action callback)
         {
             if (keyUpCallBackMap.ContainsKey(key))
@@ -45,6 +61,14 @@
             else
             {
                 keyUpCallBackMap.Add(key, callback);
+            }
+        }
+
+        public void UnRegisterKeyUpCallBack(KeyCode key, Action callback)
+        {
+            if (keyUpCallBackMap.ContainsKey(key))
+            {
+                keyUpCallBackMap[key] -= callback;
             }
         }
 

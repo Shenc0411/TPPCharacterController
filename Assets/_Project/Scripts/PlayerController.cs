@@ -5,24 +5,85 @@
     using System.Collections.Generic;
     using UnityEngine;
 
-    public class PlayerController : MonoBehaviour
+    public class PlayerController
     {
         [SerializeField]
-        private float moveSpeed = 2.0f;
+        private Character character;
 
+        private List<KeyValuePair<KeyCode, Action>> keyHoldCallbacks = new List<KeyValuePair<KeyCode, Action>>();
+        private List<KeyValuePair<KeyCode, Action>> keyDownCallbacks = new List<KeyValuePair<KeyCode, Action>>();
+        private List<KeyValuePair<KeyCode, Action>> keyUpCallbacks = new List<KeyValuePair<KeyCode, Action>>();
 
-        private void Awake()
+        public Character Character
         {
-            InputManager.Instance.RegisterKeyHoldCallBack(KeyCode.W, () => Move(this.transform.forward, moveSpeed));
-            InputManager.Instance.RegisterKeyHoldCallBack(KeyCode.S, () => Move(-this.transform.forward, moveSpeed));
-            InputManager.Instance.RegisterKeyHoldCallBack(KeyCode.A, () => Move(-this.transform.right, moveSpeed));
-            InputManager.Instance.RegisterKeyHoldCallBack(KeyCode.D, () => Move(this.transform.right, moveSpeed));
+            get => character;
+            set
+            {
+                character = value;
+                this.SetupInputCallbacks();
+            }
         }
 
-        private void Move(Vector3 direction, float amount)
+        public PlayerController(Character character)
         {
-            this.transform.position += direction.normalized * amount * Time.deltaTime;
+            this.Character = character;
         }
+
+        private void CleanUpInputCallbacks()
+        {
+            foreach (KeyValuePair<KeyCode, Action> pair in keyHoldCallbacks)
+            {
+                InputManager.Instance.UnRegisterKeyHoldCallBack(pair.Key, pair.Value);
+            }
+
+            foreach (KeyValuePair<KeyCode, Action> pair in keyDownCallbacks)
+            {
+                InputManager.Instance.UnRegisterKeyDownCallBack(pair.Key, pair.Value);
+            }
+
+            foreach (KeyValuePair<KeyCode, Action> pair in keyUpCallbacks)
+            {
+                InputManager.Instance.UnRegisterKeyUpCallBack(pair.Key, pair.Value);
+            }
+
+            keyHoldCallbacks.Clear();
+            keyDownCallbacks.Clear();
+            keyUpCallbacks.Clear();
+        }
+
+        private void SetupInputCallbacks()
+        {
+            CleanUpInputCallbacks();
+
+            if(character == null)
+            {
+                Debug.Log("Cannot register control callbacks for null character");
+                return;
+            }
+
+            keyHoldCallbacks.Add(new KeyValuePair<KeyCode, Action>(KeyCode.W, () => character.Move(character.transform.forward)));
+            keyHoldCallbacks.Add(new KeyValuePair<KeyCode, Action>(KeyCode.S, () => character.Move(-character.transform.forward)));
+            keyHoldCallbacks.Add(new KeyValuePair<KeyCode, Action>(KeyCode.A, () => character.Move(-character.transform.right)));
+            keyHoldCallbacks.Add(new KeyValuePair<KeyCode, Action>(KeyCode.D, () => character.Move(character.transform.right)));
+
+            #region Register Key Callbacks
+            foreach (KeyValuePair<KeyCode, Action> pair in keyHoldCallbacks)
+            {
+                InputManager.Instance.RegisterKeyHoldCallBack(pair.Key, pair.Value);
+            }
+
+            foreach (KeyValuePair<KeyCode, Action> pair in keyDownCallbacks)
+            {
+                InputManager.Instance.RegisterKeyDownCallBack(pair.Key, pair.Value);
+            }
+
+            foreach (KeyValuePair<KeyCode, Action> pair in keyUpCallbacks)
+            {
+                InputManager.Instance.RegisterKeyUpCallBack(pair.Key, pair.Value);
+            } 
+            #endregion
+        }
+
     }
 
 }
