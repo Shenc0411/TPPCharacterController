@@ -61,10 +61,10 @@
                 return;
             }
 
-            keyHoldCallbacks.Add(new KeyValuePair<KeyCode, Action>(KeyCode.W, () => character.Move(character.transform.forward)));
-            keyHoldCallbacks.Add(new KeyValuePair<KeyCode, Action>(KeyCode.S, () => character.Move(-character.transform.forward)));
-            keyHoldCallbacks.Add(new KeyValuePair<KeyCode, Action>(KeyCode.A, () => character.Move(-character.transform.right)));
-            keyHoldCallbacks.Add(new KeyValuePair<KeyCode, Action>(KeyCode.D, () => character.Move(character.transform.right)));
+            keyHoldCallbacks.Add(new KeyValuePair<KeyCode, Action>(KeyCode.W, () => character.MoveForward()));
+            keyHoldCallbacks.Add(new KeyValuePair<KeyCode, Action>(KeyCode.S, () => character.MoveBackward()));
+            keyHoldCallbacks.Add(new KeyValuePair<KeyCode, Action>(KeyCode.A, () => character.RotateLeft()));
+            keyHoldCallbacks.Add(new KeyValuePair<KeyCode, Action>(KeyCode.D, () => character.RotateRight()));
 
             #region Register Key Callbacks
             foreach (KeyValuePair<KeyCode, Action> pair in keyHoldCallbacks)
