@@ -506,8 +506,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ce2c75b7c13ad1488c454f092bcaa13, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movementSpeed: 4
-  rotationSpeed: 1.5707965
+  movementSpeed: 3
+  turningSpeed: 1.5707965
   animator: {fileID: 584627622}
 --- !u!143 &1324097967
 CharacterController:

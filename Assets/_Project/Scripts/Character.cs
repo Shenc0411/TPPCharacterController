@@ -8,10 +8,16 @@
     public class Character : MonoBehaviour
     {
         [SerializeField]
-        private float movementSpeed = 4.0f;
-        private float currentSpeed = 0.0f;
+        private float movementSpeed = 3.0f;
+        private float currentMovingDirection = 0.0f;
+        
+        private bool isSprinting = false;
+        private bool isMoving = false;
+        
         [SerializeField]
-        private float rotationSpeed = 1.0f * Mathf.PI;
+        private float turningSpeed = 0.5f * Mathf.PI;
+        private float currentTurningDirection = 0.0f;
+
         [SerializeField]
         private Animator animator = default;
 
@@ -34,33 +40,50 @@
 
         public void MoveForward()
         {
-            this.currentSpeed += this.movementSpeed;
+            this.currentMovingDirection += 1.0f;
         }
 
         public void MoveBackward()
         {
-            this.currentSpeed -= this.movementSpeed;
+            this.currentMovingDirection -= 1.0f;
         }
 
         public void RotateLeft()
         {
-            this.projectedForwardAngle += rotationSpeed * Time.deltaTime;
-            this.projectedForward = new Vector3(Mathf.Cos(this.projectedForwardAngle), 0.0f, Mathf.Sin(this.projectedForwardAngle));
-            this.projectedRotation = Quaternion.LookRotation(this.projectedForward, Vector3.up);
+            this.currentTurningDirection += 1.0f;
         }
 
         public void RotateRight()
         {
-            this.projectedForwardAngle -= rotationSpeed * Time.deltaTime;
-            this.projectedForward = new Vector3(Mathf.Cos(this.projectedForwardAngle), 0.0f, Mathf.Sin(this.projectedForwardAngle));
-            this.projectedRotation = Quaternion.LookRotation(this.projectedForward, Vector3.up);
+            this.currentTurningDirection -= 1.0f;
+        }
+
+        public void Sprint()
+        {
+            this.isSprinting = true;
         }
 
         private void LateUpdate()
         {
-            this.characterController.Move(this.transform.forward * this.currentSpeed * Time.deltaTime);
-            this.animator.SetFloat("MovementSpeed", this.currentSpeed);
-            this.currentSpeed = 0.0f;
+            float currentSpeed = this.movementSpeed * this.currentMovingDirection * (this.isSprinting ? 2.0f : 1.0f);
+            
+            this.characterController.Move(this.transform.forward * currentSpeed * Time.deltaTime);
+            this.animator.SetFloat("MovementSpeed", currentSpeed);
+            this.animator.SetBool("IsMoving", Mathf.Abs(currentSpeed) > 0);
+
+            float currentTurningSpeed = this.currentTurningDirection * this.turningSpeed;
+
+            this.projectedForwardAngle += currentTurningSpeed * Time.deltaTime;
+            this.projectedForward = new Vector3(Mathf.Cos(this.projectedForwardAngle), 0.0f, Mathf.Sin(this.projectedForwardAngle));
+            this.projectedRotation = Quaternion.LookRotation(this.projectedForward, Vector3.up);
+            this.animator.SetFloat("TurningSpeed", currentTurningSpeed);
+            this.animator.SetBool("IsTurning", Mathf.Abs(currentTurningSpeed) > 0);
+
+            this.currentMovingDirection = 0.0f;
+            this.currentTurningDirection = 0.0f;
+
+            this.isSprinting = false;
+
             this.transform.forward = Vector3.Lerp(this.transform.forward, this.projectedForward, 0.1f);
         }
 
