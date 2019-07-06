@@ -1,8 +1,9 @@
-﻿namespace Lake
+﻿namespace Lake.Character
 {
     using System.Collections;
     using System.Collections.Generic;
     using UnityEngine;
+    using Lake.Controller;
 
     [RequireComponent(typeof(CharacterController), typeof(Rigidbody))]
     public class Character : MonoBehaviour

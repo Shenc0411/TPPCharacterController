@@ -3,7 +3,7 @@
     using System.Collections;
     using System.Collections.Generic;
     using UnityEngine;
-    using Lake;
+    using Lake.Character;
 
     public class CharacterStatsPanel : MonoBehaviour
     {

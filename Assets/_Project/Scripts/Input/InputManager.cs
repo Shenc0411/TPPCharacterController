@@ -1,4 +1,4 @@
-﻿namespace Lake
+﻿namespace Lake.Input
 {
     using System;
     using System.Collections;

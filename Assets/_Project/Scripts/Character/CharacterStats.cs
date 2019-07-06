@@ -1,4 +1,4 @@
-﻿namespace Lake
+﻿namespace Lake.Character
 {
     using System;
     using System.Collections;

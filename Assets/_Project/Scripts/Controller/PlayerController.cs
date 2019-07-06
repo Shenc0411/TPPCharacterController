@@ -1,9 +1,11 @@
-﻿namespace Lake
+﻿namespace Lake.Controller
 {
     using System;
     using System.Collections;
     using System.Collections.Generic;
     using UnityEngine;
+    using Lake.Character;
+    using Lake.Input;
 
     public class PlayerController
     {
