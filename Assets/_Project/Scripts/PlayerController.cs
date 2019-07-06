@@ -67,6 +67,8 @@
             keyHoldCallbacks.Add(new KeyValuePair<KeyCode, Action>(KeyCode.D, () => character.RotateRight()));
             keyHoldCallbacks.Add(new KeyValuePair<KeyCode, Action>(KeyCode.LeftShift, () => character.Sprint()));
 
+            keyDownCallbacks.Add(new KeyValuePair<KeyCode, Action>(KeyCode.Space, () => character.Jump()));
+            
             #region Register Key Callbacks
             foreach (KeyValuePair<KeyCode, Action> pair in keyHoldCallbacks)
             {
