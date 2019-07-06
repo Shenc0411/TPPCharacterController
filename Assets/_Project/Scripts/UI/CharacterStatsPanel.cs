@@ -9,8 +9,8 @@
     {
         [SerializeField]
         private Character targetCharacter = default;
-        private CharacterStats targetCharacterStats = default;
-        private Dictionary<CharacterStatsEntry, CharacterStatsBar> characterStatsBarMap = new Dictionary<CharacterStatsEntry, CharacterStatsBar>();
+        private CharacterStatus targetCharacterStats = default;
+        private Dictionary<NumericalStatus, CharacterStatsBar> characterStatsBarMap = new Dictionary<NumericalStatus, CharacterStatsBar>();
 
         public Character TargetCharacter
         {
@@ -36,10 +36,10 @@
 
         private void UpdateBars()
         {
-            foreach (KeyValuePair<CharacterStatsEntry, CharacterStatsBar> pair in this.characterStatsBarMap)
+            foreach (KeyValuePair<NumericalStatus, CharacterStatsBar> pair in this.characterStatsBarMap)
             {
                 CharacterStatsBar bar = pair.Value;
-                CharacterStatsEntry entry = pair.Key;
+                NumericalStatus entry = pair.Key;
 
                 bar.Slider.value = entry.CurrentValue / entry.MaxValue;
             }
@@ -47,7 +47,7 @@
 
         private void SetUpTargetCharacter(Character target)
         {
-            foreach (KeyValuePair<CharacterStatsEntry, CharacterStatsBar> pair in this.characterStatsBarMap)
+            foreach (KeyValuePair<NumericalStatus, CharacterStatsBar> pair in this.characterStatsBarMap)
             {
                 Destroy(pair.Value.gameObject);
             }
@@ -62,14 +62,23 @@
 
             this.targetCharacterStats = this.targetCharacter.CharacterStats;
 
-            foreach (KeyValuePair<StatsType, CharacterStatsEntry> pair in this.targetCharacterStats.StatsEntries)
+            foreach (KeyValuePair<NumericalStatus.StatsType, NumericalStatus> pair in this.targetCharacterStats.NumericalStatusMap)
             {
                 CharacterStatsBar bar = Instantiate(UIPrefabReferenceManager.Instance.CharacterStatsBarPrefab, this.transform).GetComponent<CharacterStatsBar>();
-                CharacterStatsEntry entry = pair.Value;
-                bar.BackgroundImage.color = entry.StatsBarUIBackgroundColor;
-                bar.FillImage.color = entry.StatsBarUIFillColor;
-                bar.Slider.value = entry.CurrentValue / entry.MaxValue;
-                this.characterStatsBarMap.Add(entry, bar);
+                NumericalStatus numericalStatus = pair.Value;
+                bar.BackgroundImage.color = UIPrefabReferenceManager.Instance.DefaultNumericalStatusBackgroundColor;
+
+                if (UIPrefabReferenceManager.Instance.NumericalStatusColorMap.ContainsKey(numericalStatus.Type))
+                {
+                    bar.FillImage.color = UIPrefabReferenceManager.Instance.NumericalStatusColorMap[numericalStatus.Type];
+                }
+                else
+                {
+                    bar.FillImage.color = UIPrefabReferenceManager.Instance.DefaultNumericalStatusFillColor;
+                }
+                
+                bar.Slider.value = numericalStatus.CurrentValue / numericalStatus.MaxValue;
+                this.characterStatsBarMap.Add(numericalStatus, bar);
             }
         }
     }

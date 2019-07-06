@@ -153,6 +153,15 @@ MonoBehaviour:
     type: 3}
   characterStatsBarPrefab: {fileID: 5825008057323568562, guid: 9b0adaca3b7801b41a86ce92fd355b94,
     type: 3}
+  numericalStatusColorConfigurations:
+  - key: 0
+    value: {r: 1, g: 0.5, b: 0.5, a: 1}
+  - key: 1
+    value: {r: 0.5, g: 1, b: 0.5, a: 1}
+  - key: 2
+    value: {r: 1, g: 1, b: 0.5, a: 1}
+  defaultNumericalStatusBackgroundColor: {r: 1, g: 1, b: 1, a: 1}
+  defaultNumericalStatusFillColor: {r: 0.5, g: 0.5, b: 1, a: 1}
 --- !u!4 &83569652
 Transform:
   m_ObjectHideFlags: 0

@@ -37,7 +37,7 @@
         private CharacterController characterController = default;
         private new Rigidbody rigidbody = default;
 
-        private CharacterStats characterStats = default;
+        private CharacterStatus characterStats = default;
 
         public float MovementSpeed
         {
@@ -51,7 +51,7 @@
 
         public Rigidbody Rigidbody { get => this.rigidbody; }
 
-        public CharacterStats CharacterStats { get => this.characterStats; }
+        public CharacterStatus CharacterStats { get => this.characterStats; }
 
         public void MoveForward()
         {
@@ -77,10 +77,10 @@
         {
             float amountToConsume = 25.0f * Time.deltaTime;
 
-            if (this.characterStats.StatsEntries[StatsType.Stamina].CurrentValue > amountToConsume && this.characterController.isGrounded && this.currentSpeed != 0)
+            if (this.characterStats.NumericalStatusMap[NumericalStatus.StatsType.Stamina].CurrentValue > amountToConsume && this.characterController.isGrounded && this.currentSpeed != 0)
             {
                 this.isSprinting = true;
-                this.characterStats.StatsEntries[StatsType.Stamina].CurrentValue -= amountToConsume;
+                this.characterStats.NumericalStatusMap[NumericalStatus.StatsType.Stamina].CurrentValue -= amountToConsume;
             }
         }
 
@@ -140,7 +140,7 @@
             this.characterController = this.GetComponent<CharacterController>();
             this.rigidbody = this.GetComponent<Rigidbody>();
 
-            this.characterStats = new CharacterStats();
+            this.characterStats = new CharacterStatus();
         }
     }
 
