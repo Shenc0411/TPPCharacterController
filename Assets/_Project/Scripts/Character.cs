@@ -36,17 +36,21 @@
         private CharacterController characterController = default;
         private new Rigidbody rigidbody = default;
 
+        private CharacterStats characterStats = default;
+
         public float MovementSpeed
         {
             get => movementSpeed;
             set => movementSpeed = value;
         }
 
-        public PlayerController PlayerController { get => playerController; }
+        public PlayerController PlayerController { get => this.playerController; }
 
-        public CharacterController CharacterController { get => characterController; }
+        public CharacterController CharacterController { get => this.characterController; }
 
-        public Rigidbody Rigidbody { get => rigidbody; }
+        public Rigidbody Rigidbody { get => this.rigidbody; }
+
+        public CharacterStats CharacterStats { get => this.characterStats; }
 
         public void MoveForward()
         {
@@ -70,7 +74,13 @@
 
         public void Sprint()
         {
-            this.isSprinting = true;
+            float amountToConsume = 25.0f * Time.deltaTime;
+
+            if (this.characterStats.StatsEntries[StatsType.Stamina].CurrentValue > amountToConsume && this.characterController.isGrounded && this.currentSpeed > 0)
+            {
+                this.isSprinting = true;
+                this.characterStats.StatsEntries[StatsType.Stamina].CurrentValue -= amountToConsume;
+            }
         }
 
         public void Jump()
@@ -78,10 +88,13 @@
             this.shouldJump = true;
         }
 
+        private void Update()
+        {
+            this.characterStats?.Update(Time.deltaTime);
+        }
+
         private void LateUpdate()
         {
-            
-
             if (this.characterController.isGrounded)
             {
                 currentSpeed = this.movementSpeed * this.currentMovingDirection * (this.isSprinting ? 2.0f : 1.0f);
@@ -125,6 +138,8 @@
             this.playerController = new PlayerController(this);
             this.characterController = this.GetComponent<CharacterController>();
             this.rigidbody = this.GetComponent<Rigidbody>();
+
+            this.characterStats = new CharacterStats();
         }
     }
 
