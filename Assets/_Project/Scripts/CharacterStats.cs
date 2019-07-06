@@ -27,8 +27,8 @@
 
         private void AddDefaultEntries()
         {
-            CharacterStatsEntry healthEntry = new CharacterHealthStatsEntry(100.0f, 100.0f, 0.0f, 5.0f);
-            CharacterStatsEntry staminaEntry = new CharacterStaminaStatsEntry(100.0f, 100.0f, 0.0f, 5.0f);
+            CharacterStatsEntry healthEntry = new CharacterHealthStatsEntry(100.0f, 100.0f, 0.0f, 1.0f);
+            CharacterStatsEntry staminaEntry = new CharacterStaminaStatsEntry(100.0f, 100.0f, 0.0f, 10.0f);
             CharacterStatsEntry hungerEntry = new CharacterHungerStatsEntry(100.0f, 100.0f, 0.0f, -5.0f);
             this.statsEntries.Add(healthEntry.Type, healthEntry);
             this.statsEntries.Add(staminaEntry.Type, staminaEntry);

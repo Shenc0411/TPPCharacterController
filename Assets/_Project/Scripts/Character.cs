@@ -76,7 +76,7 @@
         {
             float amountToConsume = 25.0f * Time.deltaTime;
 
-            if (this.characterStats.StatsEntries[StatsType.Stamina].CurrentValue > amountToConsume && this.characterController.isGrounded && this.currentSpeed > 0)
+            if (this.characterStats.StatsEntries[StatsType.Stamina].CurrentValue > amountToConsume && this.characterController.isGrounded && this.currentSpeed != 0)
             {
                 this.isSprinting = true;
                 this.characterStats.StatsEntries[StatsType.Stamina].CurrentValue -= amountToConsume;
@@ -108,20 +108,20 @@
             }
             else
             {
-                currentSpeed = Mathf.Lerp(currentSpeed, 0.0f, 1.0f * Time.deltaTime);
+                currentSpeed = Mathf.Lerp(currentSpeed, 0.0f, 0.5f * Time.deltaTime);
                 currentTurningSpeed = Mathf.Lerp(currentTurningSpeed, 0.0f, 0.2f);
                 verticalSpeed.y -= 9.8f * Time.deltaTime;
             }
 
             this.characterController.Move((this.transform.forward * currentSpeed + verticalSpeed) * Time.deltaTime);
             this.animator.SetFloat("MovementSpeed", currentSpeed);
-            this.animator.SetBool("IsMoving", Mathf.Abs(currentSpeed) > 0);
+            this.animator.SetBool("IsMoving", currentSpeed != 0);
 
             this.projectedForwardAngle += currentTurningSpeed * Time.deltaTime;
             this.projectedForward = new Vector3(Mathf.Cos(this.projectedForwardAngle), 0.0f, Mathf.Sin(this.projectedForwardAngle));
             this.projectedRotation = Quaternion.LookRotation(this.projectedForward, Vector3.up);
             this.animator.SetFloat("TurningSpeed", currentTurningSpeed);
-            this.animator.SetBool("IsTurning", Mathf.Abs(currentTurningSpeed) > 0);
+            this.animator.SetBool("IsTurning", currentTurningSpeed != 0);
             this.animator.SetBool("IsGrounded", this.characterController.isGrounded);
 
             this.currentMovingDirection = 0.0f;
